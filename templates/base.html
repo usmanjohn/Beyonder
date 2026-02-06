@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Powerty - Data Science & Services{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Sidebar Toggle Checkbox (Hidden) -->
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-checkbox">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" class="sidebar-logo">
+                <span class="logo-text">POWERTY</span>
+            </div>
+            <label for="sidebar-toggle" class="toggle-btn">
+                <i class="bi bi-list"></i>
+            </label>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <!-- Home -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link {% if request.resolver_match.url_name == 'home' or not request.resolver_match.url_name %}active{% endif %}">
+                        <i class="bi bi-house-door-fill"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
+                </li>
+                
+                <!-- ML/Data Analytics with Submenu -->
+                <li class="nav-item has-submenu">
+                    <input type="checkbox" id="ml-submenu" class="submenu-toggle">
+                    <label for="ml-submenu" class="nav-link">
+                        <i class="bi bi-graph-up-arrow"></i>
+                        <span class="nav-text">ML/Data Analytics</span>
+                        <i class="bi bi-chevron-down submenu-icon"></i>
+                    </label>
+                    <ul class="submenu">
+                        <li><a href="#" class="submenu-link"><i class="bi bi-search"></i> Querying</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-download"></i> Fetching</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-arrow-repeat"></i> Transforming</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-cpu"></i> Processing</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-bar-chart-line"></i> Visualizing</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-diagram-3"></i> Modelling</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-lightning"></i> Predicting</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-rocket-takeoff"></i> Applying</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Services with Submenu -->
+                <li class="nav-item has-submenu">
+                    <input type="checkbox" id="services-submenu" class="submenu-toggle">
+                    <label for="services-submenu" class="nav-link">
+                        <i class="bi bi-briefcase-fill"></i>
+                        <span class="nav-text">Services</span>
+                        <i class="bi bi-chevron-down submenu-icon"></i>
+                    </label>
+                    <ul class="submenu">
+                        <li><a href="#" class="submenu-link"><i class="bi bi-trophy"></i> Chess</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-book"></i> Poems</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-image"></i> Scenery Writing</a></li>
+                        <li><a href="#" class="submenu-link"><i class="bi bi-film"></i> Video Editing</a></li>
+                    </ul>
+                </li>
+                
+                <!-- EDA -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link {% if request.resolver_match.url_name == 'eda' %}active{% endif %}">
+                        <i class="bi bi-clipboard-data"></i>
+                        <span class="nav-text">EDA</span>
+                    </a>
+                </li>
+                
+                <!-- Projects -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+                        <i class="bi bi-kanban"></i>
+                        <span class="nav-text">Projects</span>
+                    </a>
+                </li>
+                
+                <!-- Blog -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">
+                        <i class="bi bi-journal-text"></i>
+                        <span class="nav-text">Blog</span>
+                    </a>
+                </li>
+                
+                <!-- Who Am I -->
+                <li class="nav-item">
+                    <a href="{% url 'profile_home' %}" class="nav-link {% if request.resolver_match.url_name == 'profile_home' %}active{% endif %}">
+                        <i class="bi bi-person-circle"></i>
+                        <span class="nav-text">Who Am I</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- User Section at Bottom -->
+        <div class="sidebar-footer">
+            <div class="user-info">
+                {% if user.is_authenticated %}
+                    <div class="user-avatar">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">{{ user.username }}</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <a href="#" class="logout-btn" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                {% else %}
+                    <a href="#" class="login-btn">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span class="nav-text">Login</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </aside>
+
+    <!-- Topbar -->
+    <header class="topbar">
+        <div class="topbar-content">
+            <i class="breadcrumb-icon 
+                {% if request.resolver_match.url_name == 'profile_home' %}bi-person-circle
+                {% elif request.resolver_match.url_name == 'blog' %}bi-journal-text
+                {% elif request.resolver_match.url_name == 'projects' %}bi-kanban
+                {% elif request.resolver_match.url_name == 'eda' %}bi-clipboard-data
+                {% else %}bi-house-door-fill
+                {% endif %}">
+            </i>
+            <span class="breadcrumb-text">
+                {% if request.resolver_match.url_name == 'profile_home' %}
+                    Who Am I
+                {% elif request.resolver_match.url_name == 'blog' %}
+                    Blog
+                {% elif request.resolver_match.url_name == 'projects' %}
+                    Projects
+                {% elif request.resolver_match.url_name == 'eda' %}
+                    EDA
+                {% else %}
+                    Home
+                {% endif %}
+            </span>
+        </div>
+    </header>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Mobile Toggle Button -->
+        <label for="sidebar-toggle" class="mobile-toggle">
+            <i class="bi bi-list"></i>
+        </label>
+        
+        <div class="content-wrapper">
+            {% block content %}
+            <!-- Page content goes here -->
+            {% endblock %}
+        </div>
+    </main>
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
